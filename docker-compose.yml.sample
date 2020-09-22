@@ -1,0 +1,23 @@
+# Create "~/docker-data/" directory before running this docker-compose file
+# Please change default password for postgres (POSTGRES_PASSWORD env variable)
+
+version: '3'
+services:
+  postgresql:
+    image: 'postgres:13-alpine'
+    container_name: 'think-vue-postgresql'
+    environment:
+      POSTGRES_PASSWORD: 'change_me'
+    ports:
+      - '5432:5432'
+    networks:
+      - think-vue-network
+    volumes:
+      - '~/docker-data/think-vue-postgres:/var/lib/postgresql/data'
+
+networks:
+  think-vue-network:
+    driver: bridge
+
+volumes:
+  postgres:

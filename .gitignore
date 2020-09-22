@@ -38,6 +38,9 @@ yarn-debug.log*
 # Ignore local db settings
 config/database.yml
 
+# Ignore local dev docker-compose.yml
+docker-compose.yml
+
 # Ignore local MacOS specific files
 .DS_Store
 
