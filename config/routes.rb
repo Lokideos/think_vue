@@ -7,5 +7,9 @@ Rails.application.routes.draw do
     resources :staffs, only: :index
   end
 
+  namespace :client do
+    resources :clients, only: :index
+  end
+
   root to: 'staff/staffs#index'
 end
