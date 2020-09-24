@@ -10,4 +10,22 @@ RSpec.describe UserTokenSession, type: :model do
 
     it { should validate_uniqueness_of :uuid }
   end
+
+  describe '#token_expired?' do
+    context 'session was created less then 2 hours ago' do
+      let(:user_token_session) { create(:user_token_session) }
+
+      it 'should return false' do
+        expect(user_token_session).to_not be_token_expired
+      end
+    end
+
+    context 'session was created more then 2 hours ago' do
+      let(:user_token_session) { create(:user_token_session, created_at: Time.now - 2.hours - 1) }
+
+      it 'should return true' do
+        expect(user_token_session).to be_token_expired
+      end
+    end
+  end
 end
