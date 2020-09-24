@@ -1,0 +1,5 @@
+en:
+  services:
+    user_token_sessions:
+      create_service:
+        unauthorized: 'Not authorized to get the token. Please check email and password.'
