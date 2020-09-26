@@ -1,0 +1,8 @@
+en:
+  services:
+    user_token_sessions:
+      create_service:
+        unauthorized: 'Not authorized to get the token. Please check email and password.'
+      auth_service:
+        unauthorized: 'There is no user associated with this token.'
+        token_expired: 'Token expired. Please create new token.'

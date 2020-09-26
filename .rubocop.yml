@@ -143,3 +143,6 @@ Style/SingleArgumentDig:
 
 Style/StringConcatenation:
   Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
