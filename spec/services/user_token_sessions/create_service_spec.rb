@@ -11,14 +11,37 @@ RSpec.describe UserTokenSessions::CreateService do
   context 'with valid parameters' do
     let!(:user) { create(:user, email: email, password: password) }
 
-    it 'creates new user token session' do
-      expect { subject.call(email, password) }.to change(UserTokenSession, :count).by(1)
+    context 'session for given user already exists' do
+      let!(:old_session) { create(:user_token_session, user: user) }
+
+      it 'destroys previous session' do
+        subject.call(email, password)
+
+        expect { UserTokenSession.find(id: old_session.id) }
+          .to raise_error ActiveRecord::RecordNotFound
+      end
+
+      it 'creates replace old user token session with new one' do
+        expect { subject.call(email, password) }.to_not change(UserTokenSession, :count)
+      end
+
+      it 'assigns session to result' do
+        result = subject.call(email, password)
+
+        expect(result.session).to be_kind_of(UserTokenSession)
+      end
     end
 
-    it 'assigns session to result' do
-      result = subject.call(email, password)
+    context 'session for given user does not exist' do
+      it 'creates new user token session' do
+        expect { subject.call(email, password) }.to change(UserTokenSession, :count).by(1)
+      end
 
-      expect(result.session).to be_kind_of(UserTokenSession)
+      it 'assigns session to result' do
+        result = subject.call(email, password)
+
+        expect(result.session).to be_kind_of(UserTokenSession)
+      end
     end
   end
 

@@ -21,10 +21,19 @@ module UserTokenSessions
     private
 
     def create_session
-      @session = @user.user_token_sessions.create_with(uuid: SecureRandom.uuid)
-                      .find_or_initialize_by(user: @user)
+      @session = UserTokenSession.find_by(user: @user)
+      @session = @session.present? ? reinitialized_session : new_session_for_user(@user)
 
       @session.valid? ? @session.save : fail!(@session.errors)
+    end
+
+    def reinitialized_session
+      @session.destroy
+      new_session_for_user(@user)
+    end
+
+    def new_session_for_user(user)
+      user.user_token_sessions.new(uuid: SecureRandom.uuid)
     end
 
     def fail_t!(key)

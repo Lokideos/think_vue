@@ -45,9 +45,16 @@ describe 'User Token Sessions API' do
       end
 
       context 'UserSession for this user exists' do
-        let!(:user_session_token) { create(:user_token_session, user: user) }
+        let!(:old_user_session_token) { create(:user_token_session, user: user) }
 
-        it 'should not create new UserTokenSession' do
+        it 'should delete previous user token session' do
+          post(api_path, params: body, headers: headers)
+
+          expect { UserTokenSession.find(id: old_user_session_token.id) }
+            .to raise_error ActiveRecord::RecordNotFound
+        end
+
+        it 'should replace old UserTokenSession with new one' do
           expect { post(api_path, params: body, headers: headers) }
             .to_not change(UserTokenSession, :count)
         end
@@ -61,10 +68,19 @@ describe 'User Token Sessions API' do
         it 'should return correct token' do
           post(api_path, params: body, headers: headers)
 
-          created_session_uuid = user_session_token.uuid
+          created_session_uuid = user.user_token_sessions.first.uuid
           decoded_uuid = JwtEncoder.decode(JSON(response.body).dig('meta', 'token'))['uuid']
 
           expect(decoded_uuid).to eq created_session_uuid
+        end
+
+        it 'should return new token' do
+          post(api_path, params: body, headers: headers)
+
+          old_session_uuid = old_user_session_token.uuid
+          decoded_uuid = JwtEncoder.decode(JSON(response.body).dig('meta', 'token'))['uuid']
+
+          expect(decoded_uuid).to_not eq old_session_uuid
         end
       end
     end
