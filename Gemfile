@@ -30,6 +30,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise', '~> 4.7.0'
 gem 'jwt', '~> 2.2.0'
 
+# Serializers
+gem 'fast_jsonapi', '~> 1.5'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', '~> 3.9.0'
