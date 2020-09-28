@@ -2,11 +2,13 @@
   #app
     navbar
     h1 {{ message }}
+    dashboard
 </template>
 
 <script>
 import axios from 'axios'
 import Navbar from "./navbar/navbar";
+import Dashboard from "./dashboard/dashboard"
 
 export default {
   data: function () {
@@ -15,7 +17,8 @@ export default {
     }
   },
   components: {
-    'navbar': Navbar
+    'navbar': Navbar,
+    'dashboard': Dashboard
   }
 }
 </script>
