@@ -1,5 +1,6 @@
 <template lang="pug">
-.dashboard
+section.dashboard
+  h2.dashboard__header.visually-hidden Clients Dashboard
   table.clients-list
     tr.clients-list__header
       th email
@@ -163,5 +164,24 @@ export default {
 }
 .client__form--incorrect-data {
   background-color: #730E15;
+}
+.visually-hidden:not(:focus):not(:active),
+input[type="checkbox"].visually-hidden,
+input[type="radio"].visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+
+  white-space: nowrap;
+
+  -webkit-clip-path: inset(100%);
+
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 </style>
