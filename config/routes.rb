@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   end
 
   namespace :client do
-    resources :clients, only: :index
+    resources :clients, only: %i[index create] do
+      get :clients_data, on: :collection
+    end
   end
 
   root to: 'staff/staffs#index'
