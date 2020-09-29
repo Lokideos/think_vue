@@ -91,6 +91,7 @@ export default {
             },
             authenticity_token: this.csrfToken
           })
+          .then((()=>{ this.clearClientForm() }))
           .then(this.fetchClients)
     },
     validateClientParams(email, password, fullname, phone) {
@@ -165,6 +166,12 @@ export default {
           .catch(() => {
             element.classList.add('client__form--incorrect-data')
           })
+    },
+    clearClientForm() {
+      this.clientEmail = ""
+      this.clientPassword = ""
+      this.clientFullname = ""
+      this.clientPhone = ""
     },
     clearBackground(event) {
       const element = event.target
