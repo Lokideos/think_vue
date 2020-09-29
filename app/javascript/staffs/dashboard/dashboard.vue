@@ -91,7 +91,6 @@ export default {
             },
             authenticity_token: this.csrfToken
           })
-          .then(({ data }) => { this.newClientData = data.data })
           .then(this.fetchClients)
     },
     validateClientParams(email, password, fullname, phone) {
