@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   namespace :client do
     resources :clients, only: %i[index create] do
       get :clients_data, on: :collection
+      post :validate_client_params, on: :collection
     end
   end
 

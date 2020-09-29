@@ -22,6 +22,16 @@ class Client::ClientsController < Client::BaseController
     render json: serializer.serializable_hash, status: :ok
   end
 
+  def validate_client_params
+    result = Client.validate_param(client_params)
+
+    if result
+      render json: {}, status: :ok
+    else
+      render json: {}, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def client_params
