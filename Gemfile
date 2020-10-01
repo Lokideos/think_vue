@@ -26,6 +26,9 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+# Slim templates
+gem "slim-rails", '~> 3.2.0'
+
 # Authentication
 gem 'devise', '~> 4.7.0'
 gem 'jwt', '~> 2.2.0'
