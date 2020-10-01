@@ -17,22 +17,22 @@ section.dashboard
   form.clients-form(v-on:submit="createUser($event)" method="post" action="/client/clients")
     label(for="client_email") email
     input.clients-form__email(
-      v-on:focusin="clearBackground($event)" v-model="clientEmail" id="client_email" type="email"
+      v-on:focusin="clearBackground($event)" v-model="client.email" id="client_email" type="email"
       value name="client[email]"
     )
     label(for="client_password") password
     input.clients-form__password(
-      v-on:focusin="clearBackground($event)" v-model="clientPassword" id="client_password"
+      v-on:focusin="clearBackground($event)" v-model="client.password" id="client_password"
       type="password" value name="client[password]"
     )
     label(for="client_fullname") fullname
     input.clients-form__fullname(
-      v-on:focusin="clearBackground($event)" v-model="clientFullname" id="client_fullname"
+      v-on:focusin="clearBackground($event)" v-model="client.fullname" id="client_fullname"
       type="text" value name="client[fullname]"
     )
     label(for="client_phone") phone
     input.clients-form__phone(
-      v-on:focusin="clearBackground($event)" v-model="clientPhone" id="client_phone" type="text"
+      v-on:focusin="clearBackground($event)" v-model="client.phone" id="client_phone" type="text"
       value name="client[phone]"
     )
     button.clients-form__submit(type="submit") Create
@@ -46,14 +46,18 @@ export default {
   data: function() {
     return {
       clientsData: [],
-      clientEmail: "",
-      clientPassword: "",
-      clientFullname: "",
-      clientPhone: "",
-      sentEmailCorrect: true,
-      sentPasswordCorrect: true,
-      sentFullnameCorrect: true,
-      sentPhoneCorrect: true,
+      client: {
+        email: "",
+        password: "",
+        fullname: "",
+        phone: ""
+      },
+      sentData: {
+        emailCorrect: true,
+        passwordCorrect: true,
+        fullnameCorrect: true,
+        phoneCorrect: true
+      },
       newClientData: {},
       csrfToken: document.querySelector('head > meta[name=csrf-token]').content,
       clientDataLoading: true
@@ -75,7 +79,7 @@ export default {
 
       if (
           !this.validateClientParams(
-              this.clientEmail, this.clientPassword, this.clientFullname, this.clientPhone
+              this.client.email, this.client.password, this.client.fullname, this.client.phone
           )
       ) {
         return
@@ -84,10 +88,10 @@ export default {
       axios.post('/client/clients',
           {
             client: {
-              email: this.clientEmail,
-              password: this.clientPassword,
-              fullname: this.clientFullname,
-              phone: this.clientPhone
+              email: this.client.email,
+              password: this.client.password,
+              fullname: this.client.fullname,
+              phone: this.client.phone
             },
             authenticity_token: this.csrfToken
           })
@@ -95,33 +99,33 @@ export default {
           .then(this.fetchClients)
     },
     validateClientParams(email, password, fullname, phone) {
-      this.sentEmailCorrect = true
-      this.sentPasswordCorrect = true
-      this.sentFullnameCorrect = true
-      this.sentPhoneCorrect = true
+      this.sentData.emailCorrect = true
+      this.sentData.passwordCorrect = true
+      this.sentData.fullnameCorrect = true
+      this.sentData.phoneCorrect = true
 
       if (!this.validClientEmail(email)) {
         const clientEmailField = document.querySelector('.clients-form__email')
         clientEmailField.classList.add('client__form--incorrect-data')
-        this.sentEmailCorrect = false
+        this.sentData.emailCorrect = false
       }
       if (!this.validClientPassword(password)) {
         const clientPasswordField = document.querySelector('.clients-form__password')
         clientPasswordField.classList.add('client__form--incorrect-data')
-        this.sentPasswordCorrect = false
+        this.sentData.passwordCorrect = false
       }
       if (!this.validClientFullname(fullname)) {
         const clientFullnamelField = document.querySelector('.clients-form__fullname')
         clientFullnamelField.classList.add('client__form--incorrect-data')
-        this.sentFullnameCorrect = false
+        this.sentData.fullnameCorrect = false
       }
       if(!this.validClientPhone(phone)) {
         const clientPhoneField = document.querySelector('.clients-form__phone')
         clientPhoneField.classList.add('client__form--incorrect-data')
-        this.sentPhoneCorrect = false
+        this.sentData.phoneCorrect = false
       }
-      return this.sentEmailCorrect && this.sentPasswordCorrect && this.sentFullnameCorrect &&
-              this.sentPhoneCorrect
+      return this.sentData.emailCorrect && this.sentData.passwordCorrect &&
+             this.sentData.fullnameCorrect && this.sentData.phoneCorrect
     },
     validClientEmail(email) {
       const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
