@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Client::ClientsController < Client::BaseController
-  before_action :load_vue_pack
-
   def index; end
 
   def create
@@ -26,9 +24,5 @@ class Client::ClientsController < Client::BaseController
 
   def client_params
     params.require(:client).permit(:email, :password, :fullname, :phone)
-  end
-
-  def load_vue_pack
-    @vue_pack = 'clients'
   end
 end
