@@ -8,12 +8,11 @@
     template(v-else)
       .authentication
         p.authentication__user-email {{ userEmail }}
-        a.authentication__logout(v-on:click="logout($event)" href="/users/sign_out" rel="nofollow") logout
+        a.authentication__logout(v-on:click="logout($event)" href="/users/sign_out" rel="nofollow")
+          | logout
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'Navbar',
   data: function () {
@@ -28,7 +27,7 @@ export default {
   },
   methods: {
     fetchUserData() {
-      axios.get('/staff/staffs/user_data')
+      this.$api.clients.fetchUserData()
           .then(({ data }) => {
             this.userEmail = data.data.attributes.email
           })
@@ -38,9 +37,8 @@ export default {
       if (event) {
         event.preventDefault()
       }
-      axios.delete('/users/sign_out',
-          { headers: { "X-CSRF-Token": this.csrfToken, "X-Vue-Redirect-Control": true } })
-           .then(() => { window.location.href = '/' })
+
+      this.$api.clients.logout()
     }
   }
 }

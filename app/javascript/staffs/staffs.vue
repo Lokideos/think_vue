@@ -7,8 +7,8 @@
 
 <script>
 import axios from 'axios'
-import Navbar from "./navbar/navbar";
-import Dashboard from "./dashboard/dashboard"
+import Navbar from "./components/navbar/navbar";
+import Dashboard from "./components/dashboard/dashboard"
 
 export default {
   data: function () {

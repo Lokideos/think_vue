@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     fetchClients() {
-      axios.get('/client/clients/clients_data').then(({ data }) => {
+      this.$api.clients.fetchClients().then(({ data }) => {
         this.clientsData = data.data
       }).finally(() => this.clientDataLoading = false)
     },
@@ -85,18 +85,13 @@ export default {
         return
       }
 
-      axios.post('/client/clients',
-          {
-            client: {
-              email: this.client.email,
-              password: this.client.password,
-              fullname: this.client.fullname,
-              phone: this.client.phone
-            },
-            authenticity_token: this.csrfToken
-          })
-          .then(({ data }) => { this.newClientData = data.data })
-          .then(this.fetchClients)
+      this.$api.clients.createClient(
+          this.client.email,
+          this.client.password,
+          this.client.fullname,
+          this.client.phone
+      ).then(({ data }) => { this.newClientData = data.data })
+       .then(this.fetchClients)
     },
     validateClientParams(email, password, fullname, phone) {
       this.sentData.emailCorrect = true
