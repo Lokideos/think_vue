@@ -24,6 +24,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/staff/*id',  to: 'layouts/staffs#index'
-  get '/client/*id', to: 'layouts/clients#index'
+  # get '/staff/*id',  to: 'layouts/staffs#index'
+  # get '/client/*id', to: 'layouts/clients#index'
 end
