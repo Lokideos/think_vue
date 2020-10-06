@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    sessions: 'users/sessions'
   }
 
   namespace :api do
@@ -12,12 +13,17 @@ Rails.application.routes.draw do
   end
 
   namespace :staff do
-    resources :staffs, only: :index
+    resources :staffs, only: :index do
+      get :user_data, on: :collection
+    end
   end
 
   namespace :client do
-    resources :clients, only: :index
+    resources :clients, only: %i[index create] do
+      get :clients_data, on: :collection
+    end
   end
 
-  root to: 'staff/staffs#index'
+  # get '/staff/*id',  to: 'layouts/staffs#index'
+  # get '/client/*id', to: 'layouts/clients#index'
 end

@@ -1,11 +1,11 @@
-class Staff::StaffsController < Staff::BaseController
-  before_action :load_vue_pack
+# frozen_string_literal: true
 
+class Staff::StaffsController < Staff::BaseController
   def index; end
 
-  private
+  def user_data
+    serializer = UserSerializer.new(current_user)
 
-  def load_vue_pack
-    @vue_pack = 'staffs'
+    render json: serializer.serializable_hash, status: :ok
   end
 end

@@ -8,5 +8,15 @@
 Staff.create([{ email: 'staff_1_test@test.com', password: '111111' },
               { email: 'staff_2_test@test.com', password: '222222' }])
 
-Client.create([{ email: 'client_1_test@test.com', password: '111111' },
-               { email: 'client_2_test@test.com', password: '222222' }])
+Client.create(
+  [
+    {
+      email: 'client_1_test@test.com', password: '111111', fullname: 'George Alexandro',
+      phone: '+7(999)999-99-99'
+    },
+    {
+      email: 'client_2_test@test.com', password: '222222', fullname: 'Alex Giovani',
+      phone: '+7(888)888-88-88'
+    }
+  ]
+)
