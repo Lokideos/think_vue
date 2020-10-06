@@ -18,7 +18,7 @@ section.dashboard
     label(for="client_email") email
     input.clients-form__email(
       v-on:focusin="clearBackground($event)" v-model="client.email" id="client_email" type="email"
-      value name="client[email]"
+      value name="client[email]" v-on:focusout="validateCurrentData($event, 'email')"
     )
     label(for="client_password") password
     input.clients-form__password(
@@ -33,7 +33,7 @@ section.dashboard
     label(for="client_phone") phone
     input.clients-form__phone(
       v-on:focusin="clearBackground($event)" v-model="client.phone" id="client_phone" type="text"
-      value name="client[phone]"
+      value name="client[phone]" v-on:focusout="validateCurrentData($event, 'phone')"
     )
     button.clients-form__submit(type="submit") Create
 </template>
@@ -146,6 +146,24 @@ export default {
       if (!!phone && phone.length > 0 && phone.match(phoneRegex)) {
         return true
       }
+    },
+    validateCurrentData(event, validationType) {
+      const element = event.target
+      let paramsForValidation = {}
+      if (validationType === 'phone') {
+        paramsForValidation = { phone: this.client.phone }
+      }
+      if (validationType === 'email') {
+        paramsForValidation = { email: this.client.email }
+      }
+      axios.post('/client/clients/validate_client_params',
+          {
+            client: paramsForValidation,
+            authenticity_token: this.csrfToken
+          })
+          .catch(() => {
+            element.classList.add('client__form--incorrect-data')
+          })
     },
     clearBackground(event) {
       const element = event.target
