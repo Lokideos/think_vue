@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     fetchClients() {
-      this.$api.clients.fetchClients().then(({ data }) => {
+      this.$api.clients.index().then(({ data }) => {
         this.clientsData = data.data
       }).finally(() => this.clientDataLoading = false)
     },
@@ -85,7 +85,7 @@ export default {
         return
       }
 
-      this.$api.clients.createClient(
+      this.$api.clients.create(
           this.client.email,
           this.client.password,
           this.client.fullname,
