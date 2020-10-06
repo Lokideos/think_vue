@@ -89,7 +89,8 @@ export default {
           this.client.password,
           this.client.fullname,
           this.client.phone
-      ).then(this.fetchClients)
+      ).then((()=>{ this.clearClientForm() }))
+       .then(this.fetchClients)
     },
     validateClientParams(email, password, fullname, phone) {
       this.sentData.emailCorrect = true
@@ -162,6 +163,12 @@ export default {
           .catch(() => {
             element.classList.add('client__form--incorrect-data')
           })
+    },
+    clearClientForm() {
+      this.client.email = ""
+      this.client.password = ""
+      this.client.fullname = ""
+      this.client.phone = ""
     },
     clearBackground(event) {
       const element = event.target
