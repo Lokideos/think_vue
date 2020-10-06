@@ -58,7 +58,6 @@ export default {
         fullnameCorrect: true,
         phoneCorrect: true
       },
-      newClientData: {},
       csrfToken: document.querySelector('head > meta[name=csrf-token]').content,
       clientDataLoading: true
     }
@@ -90,8 +89,7 @@ export default {
           this.client.password,
           this.client.fullname,
           this.client.phone
-      ).then(({ data }) => { this.newClientData = data.data })
-       .then(this.fetchClients)
+      ).then(this.fetchClients)
     },
     validateClientParams(email, password, fullname, phone) {
       this.sentData.emailCorrect = true
